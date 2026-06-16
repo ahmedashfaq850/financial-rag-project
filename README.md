@@ -1,88 +1,17 @@
-# RAG System
+# Financial Custom Rag System
 
-A Python retrieval-augmented generation (RAG) system built with [uv](https://docs.astral.sh/uv/).
+## System Architecture Diagram
 
-## Features
+<img width="2720" height="2480" alt="Image" src="https://github.com/user-attachments/assets/725eddc2-3419-4f6e-8bd5-7e4056607c94" />
 
-- **Document ingestion** — `.txt`, `.md`, and `.pdf` files
-- **Local embeddings** — [sentence-transformers](https://www.sbert.net/) (`all-MiniLM-L6-v2` by default)
-- **Vector store** — [ChromaDB](https://www.trychroma.com/) with persistent storage
-- **LLM generation** — any OpenAI-compatible API (Ollama, OpenAI, etc.)
-- **CLI** — ingest, query, status, and reset commands
+## Data Ingestion Pipeline
 
-## Quick Start
+<img width="2720" height="2136" alt="Image" src="https://github.com/user-attachments/assets/e62f859b-6fe8-4669-893d-6dbdc4de4d40" />
 
-### Prerequisites
+## Data Retrieval Pipeline
 
-- [uv](https://docs.astral.sh/uv/getting-started/installation/)
-- An LLM server (e.g. [Ollama](https://ollama.com/) running locally)
+<img width="2720" height="2120" alt="Image" src="https://github.com/user-attachments/assets/974c09c7-ba3b-469b-bbaf-5e3a5e17ff10" />
 
-### Setup
+## Backend Architecture 
 
-```bash
-# Install dependencies
-uv sync
-
-# Copy environment config (optional — defaults work with Ollama)
-cp .env.example .env
-```
-
-### Usage
-
-```bash
-# Ingest documents from data/
-uv run rag ingest
-
-# Ask a question
-uv run rag ask "What is RAG?"
-
-# Retrieve context only (no LLM call)
-uv run rag ask "What is RAG?" --retrieve-only
-
-# Check index status
-uv run rag status
-
-# Clear the vector store
-uv run rag reset
-```
-
-Add your own documents to the `data/` directory before running `rag ingest`.
-
-## Project Structure
-
-```
-rag-project/
-├── data/                  # Documents to ingest
-├── chroma_db/             # Vector store (created on first ingest)
-├── src/rag_system/
-│   ├── config.py          # Settings (env vars)
-│   ├── loader.py          # Document loading
-│   ├── chunker.py         # Text splitting
-│   ├── embedder.py        # Sentence embeddings
-│   ├── store.py           # ChromaDB vector store
-│   ├── generator.py       # LLM generation
-│   ├── pipeline.py        # RAG orchestration
-│   └── cli.py             # Typer CLI
-├── pyproject.toml
-└── .env.example
-```
-
-## Configuration
-
-All settings can be overridden via environment variables or a `.env` file. See `.env.example` for the full list.
-
-| Variable | Default | Description |
-|---|---|---|
-| `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | Sentence-transformers model |
-| `CHUNK_SIZE` | `512` | Characters per chunk |
-| `CHUNK_OVERLAP` | `64` | Overlap between chunks |
-| `TOP_K` | `4` | Chunks retrieved per query |
-| `LLM_BASE_URL` | `http://localhost:11434/v1` | OpenAI-compatible API base URL |
-| `LLM_MODEL` | `llama3.2` | Model name for generation |
-
-## Development
-
-```bash
-uv sync          # install deps
-uv run rag --help
-```
+<img width="2720" height="2240" alt="Image" src="https://github.com/user-attachments/assets/352f112e-259e-4fe4-8c60-2f7913afe5eb" />
