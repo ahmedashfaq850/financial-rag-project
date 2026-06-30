@@ -1,6 +1,7 @@
 # Python-generated files
 __pycache__/
 *.py[oc]
+*.pyc
 build/
 dist/
 wheels/
@@ -12,5 +13,6 @@ wheels/
 # Environment
 .env
 
-# Vector store
-chroma_db/
+# IDE
+.idea/
+.vscode/

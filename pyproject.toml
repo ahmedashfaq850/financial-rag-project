@@ -1,26 +1,21 @@
 [project]
-name = "rag-system"
+name = "rag-project"
 version = "0.1.0"
-description = "A retrieval-augmented generation (RAG) system with local embeddings and ChromaDB"
+description = "FastAPI + PostgreSQL project"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "chromadb>=1.5.9",
-    "httpx>=0.28.1",
+    "fastapi>=0.115.0",
+    "psycopg[binary]>=3.3.4",
     "pydantic-settings>=2.14.1",
-    "pypdf>=6.13.2",
     "python-dotenv>=1.2.2",
-    "rich>=15.0.0",
-    "sentence-transformers>=5.5.1",
-    "typer>=0.26.7",
+    "sqlalchemy>=2.0.51",
+    "uvicorn[standard]>=0.34.0",
 ]
-
-[project.scripts]
-rag = "rag_system.cli:app"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/rag_system"]
+packages = ["src/app"]

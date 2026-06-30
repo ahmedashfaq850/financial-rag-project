@@ -1,0 +1,43 @@
+---
+description: PostgreSQL, SQLAlchemy, Alembic, and Docker deployment conventions
+alwaysApply: true
+---
+
+# Database & Deployment
+
+## Configuration (never hardcode credentials)
+
+- Read `DATABASE_URL` from environment variables / `.env`
+- Never commit `.env`; keep `.env.example` with placeholders
+- Local Mac: `postgresql://postgres:PASSWORD@localhost:5433/mydatabase`
+- Docker Compose on VPS: `postgresql://postgres:PASSWORD@postgres:5432/mydatabase` (`postgres` = service name, not `localhost`)
+
+## SQLAlchemy vs Alembic
+
+- **SQLAlchemy**: app ↔ PostgreSQL (connections, models, queries, pooling)
+- **Alembic**: schema migrations (`alembic revision --autogenerate`, `alembic upgrade head`)
+- Do not use `Base.metadata.create_all()` as the main production strategy
+
+## Local dev workflow
+
+- FastAPI on Mac → PostgreSQL in Docker on port 5433
+- Later: both in Docker Compose; only env and deployment files change
+- PostgreSQL data lives in a Docker volume (`postgres_data`), not in the app folder
+- `docker compose down -v` deletes all DB data — use with care
+
+## Docker readiness
+
+- FastAPI: `uvicorn app.main:app --host 0.0.0.0 --port 8000`
+- Use `restart: unless-stopped`, PostgreSQL health checks, and wait-for-healthy before FastAPI starts
+- Do not expose PostgreSQL publicly in production
+
+## Sessions
+
+```python
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
